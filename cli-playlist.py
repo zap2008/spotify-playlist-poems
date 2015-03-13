@@ -16,10 +16,6 @@ from datetime import datetime
 import requests
 import numpy as np
 
-# email - call out that i noticed some string issues with swears
-# and that i didnt have time to check for "fuckin" vs "fucking" and things like that
-#    Talk about misspellings
-# PROMPT FOR STRING
 
 # FIX - PROMPT FOR CLIENT SECRET!!!!
 # TEST SCRIPT WITH LETTER DISTANCES!!!  MAKE IT A COMMAND LINE OPTION
