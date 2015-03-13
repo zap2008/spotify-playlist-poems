@@ -9,7 +9,10 @@ Example Usage:
 
 	python cli-playlist.py -f test-data/red-wheelbarrow.txt
 
+Once a command has been run, the program will ask you to input the client secret for API access,  This will be provided to anyone who wishes to run this program.
+
 # My Approach:
+I decided to treat this assignment as an optimization problem with a clearly defined search-space (all spotify songs titles) and an objective that must be minimized.  I chose [Levenshtein Distance](http://en.wikipedia.org/wiki/Levenshtein_distance) as my objective similarity function.
 
 # High-Level Process:
 
