@@ -16,10 +16,6 @@ from datetime import datetime
 import requests
 import numpy as np
 
-
-# FIX - PROMPT FOR CLIENT SECRET!!!!
-# TEST SCRIPT WITH LETTER DISTANCES!!!  MAKE IT A COMMAND LINE OPTION
-
 def levenshtein(s, t, word=False):
     """
     From Wikipedia article; Iterative with two matrix rows.
@@ -155,7 +151,7 @@ def songPermutationSearch(q_split, track_list, link_list):
     search is parallelized across multiprocessing.cpu_count() cpus
     function times out and returns best guess after 2 minutes
     """
-    # this is a little arbitrary, but we want to find permutations 
+    # this is a somewhat arbitrary, but we want to find permutations 
     # with no more than 1/3 as many songs as there are words
     # it is rounding up without importing extra modules
     max_permutations = int(len(q_split) / 3) + (len(q_split) % 3 > 0)
@@ -165,7 +161,6 @@ def songPermutationSearch(q_split, track_list, link_list):
     outputs = []
     start_time = datetime.now()
     print "Searching the songs for distance-minimizing permutations"
-    # LOOP STARTING AT MAX PERMUTATIONS
     for i in range(max_permutations + 1)[1:]:
         go = gen(track_list, i)
         # kick off multithreading process
@@ -191,8 +186,9 @@ class ApiQueryPipeline(object):
     """
     Class for handling API queries and filtering for relevant information
     """
-    def __init__(self, target_poem, client_secret):
+    def __init__(self, target_poem, client_id, client_secret):
         self.target_poem = target_poem
+        self.client_id = client_id
         self.client_secret = client_secret
         self.api_query_input = None
         self.request = None
@@ -217,9 +213,6 @@ class ApiQueryPipeline(object):
         self.action = 'v1/search'
         self.actiontype = '&type=track'
         
-        # Create variables that are needed for the login request
-        self.my_client_id = 'cabb734da9474e0099ac197a9e8ed5c7'
-    
     def apiQuery(self):
         """
         Method to query the Spotify search API and return track names and links
@@ -355,9 +348,11 @@ def main(argv):
             q = input.read()
             q = q.replace('\n', ' ').rstrip()
 
-    client_secret = raw_input("""Please enter client secret for API access:
+    client_id = raw_input("""Please enter Client ID for API access:
         """)
-    apiQuery = ApiQueryPipeline(q, client_secret)
+    client_secret = raw_input("""Please enter Client Secret for API access:
+        """)
+    apiQuery = ApiQueryPipeline(q, client_id, client_secret)
     apiQuery.run()
     
     perm, links, final_levenshtein = songPermutationSearch(
