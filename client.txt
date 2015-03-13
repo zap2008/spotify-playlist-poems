@@ -1,2 +1,0 @@
-client_id = 'cabb734da9474e0099ac197a9e8ed5c7'
-client_secret = '2fd5dc4df5f846569fb7441c70a4266f'
