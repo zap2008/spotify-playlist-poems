@@ -370,6 +370,5 @@ def main(argv):
     print "Levenshtein distance between playlist and input:  " + str(final_levenshtein)
 
 
-
 if __name__ == '__main__':
     main(sys.argv)
