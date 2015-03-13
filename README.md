@@ -16,11 +16,11 @@ I decided to treat this assignment as an optimization problem with a clearly def
 
 # High-Level Process:
 At a high level, my program works as follows:
-1) Find all possible n-grams (or all n-grams up to an 8-gram depending on how long the input poem is) that can be made with the input poem.
-2) For each n-gram starting with the max n-gram, query the search API and return the information for whichever song (or songs) has the lowest Levenshtein distance from the query.
-3) Remove duplicate song titles from the vector of returned songs.
-4) For each possible permutation of returned, de-duped song titles, calculate the Levenshtein distance from the permutation to the input poem.
-5) Return the permutation of song titles that minimizes the Levenshtein distance.  This permutation is the optimal playlist.
+1. Find all possible n-grams (or all n-grams up to an 8-gram depending on how long the input poem is) that can be made with the input poem.
+2. For each n-gram starting with the max n-gram, query the search API and return the information for whichever song (or songs) has the lowest Levenshtein distance from the query.
+3. Remove duplicate song titles from the vector of returned songs.
+4. For each possible permutation of returned, de-duped song titles, calculate the Levenshtein distance from the permutation to the input poem.
+5. Return the permutation of song titles that minimizes the Levenshtein distance.  This permutation is the optimal playlist.
 
 # Notes on Implementation:
 * Due to the time constraint, my optimization efforts were focused mainly on the piece of the program that searches the space of song permutations.  I parallelized this process (threads=#CPUs) and added functionality to let the process time out after 2 minutes and return the 'best effort' result.  Given more time, I would work to optimize/parallelize the API queries as well.
