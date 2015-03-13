@@ -1,7 +1,7 @@
 # Spotify Playlist Poems
 Program to create Spotify playlists out of poems.
 
-In order to run this program, you will need Python 2.7.8 installed, as well as the external libraries NumPy (pip install numpy) and Requests (pip install requests).
+In order to run this program, you will need Python 2.7.8 installed, as well as the external libraries [NumPy](http://www.numpy.org/) (pip install numpy) and [Requests](http://docs.python-requests.org/en/latest/) (pip install requests).
 
 Example Usage:
 	
