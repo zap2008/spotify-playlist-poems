@@ -303,6 +303,11 @@ class ApiQueryPipeline(object):
                 # api_obj = ApiQueryPipeline(ngram)
                 # api_obj.apiCaller()
                 self.api_query_input = ngram
+                if (
+                    '' in self.api_query_input and
+                    self.api_query_input.index('') == 0
+                    ):
+                    continue
                 self.apiQuery()
                 self.requestParser()
                 if self.request_json is None:
