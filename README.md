@@ -9,10 +9,8 @@ Example Usage:
 
 	python cli-playlist.py -f test-data/red-wheelbarrow.txt
 
-Once a command has been run, the program will ask you to input your Client ID and Client Secret for API access, though it appears the querying still works when these are left blank. My details will be provided via email to select people who wish to test this program.
-
 ## My Approach:
-I decided to treat this assignment as an optimization problem with a clearly defined search-space (all spotify songs titles) and an objective that must be minimized.  I chose [Levenshtein Distance](http://en.wikipedia.org/wiki/Levenshtein_distance) as my objective similarity function.  The reason I chose this method is that it lets us find an objectively "best" solution out of a set of candidate solutions as determined by a commonly-used similarity metric.
+I decided to treat this assignment as an optimization problem with a clearly defined search-space (all spotify songs titles) and an objective that must be minimized.  I chose [Levenshtein Distance](http://en.wikipedia.org/wiki/Levenshtein_distance) as my objective similarity function.  The reason I chose this method is that it lets us find an objectively "best" solution out of a set of candidate solutions as determined by a commonly-used similarity metric.  I also wanted the program to _always_ return a "best" match, no matter what words are in the input poem.  As long as at least one of the n-grams in the poem returns a song from the search API, this program will return a playlist.
 
 ## High-Level Process:
 At a high level, my program works as follows:
@@ -24,7 +22,11 @@ At a high level, my program works as follows:
 5. Return the permutation of song titles that minimizes the Levenshtein distance.  This permutation is the optimal playlist.
 
 ## Notes on Implementation:
-* Due to the time constraint, my optimization efforts were focused mainly on the piece of the program that searches the space of song permutations (step 5 above).  I parallelized this process and added functionality to let the process time out after 2 minutes and return the 'best effort' result.  Given more time, I would work to optimize/parallelize the API queries as well.
+* Due to the time constraint, my optimization efforts were focused mainly on the piece of the program that searches the space of song permutations (step 5 above).  I parallelized this process and added functionality to let the process time out after 2 minutes and return the 'best effort' result.  Given more time, I would work to optimize/parallelize the API queries as well. I chose to spend time optimizing the song permutation search for the following reason:
+  * for any input poem, there are 1/2 * _x_ (_x_ + 1) possible n-grams, where _x_ is the number of words in the poem.
+  * However, there are _y_! possible song permuations, where _y_ is the number of candidate songs for the playlist.
+  * [As can be seen here](http://www.wolframalpha.com/input/?i=x%21+and+x*%28x%2B1%29%2F2), the number of possible song permutations will almost always be greater than the number of possible n-gram API queries for input poems with more than two words (two words allows for three n-grams and therefore up to three songs).
 * Due to the fact that a string distance metric was used, the resulting playlist will occasionally return songs that have words that were not in the input poem (e.g. "live" instead of "love").  My distance function has an option that allows you to find word-distances instead of just string-distances, however the string distances seemed to return better results overall so I decided not to use this option.  This does mean that the program effectively matches colloquial language to the input (e.g. "running" can match with "runnin").
 * Another implication of the string distance approach is that there will occasionally be unmatched words in the resulting playlist.  Given more time, I would either implement logic to minimize this occurence or I would include something like word-level [Hamming Distance](http://en.wikipedia.org/wiki/Hamming_distance) in the objective function.
 * I tested more complex minimization objectives, such as functions of both string distance AND number of tracks, however these didn't perform quite as well.  I decided to avoid instances of one-word songs ("if", "I", "can't", etc...) by setting the maximum number of songs to be equal to 1/3 the number of words in the input poem.  This served the dual function of keeping the playlist short and reducing the possible search-space of song title permutations.
+* The relevant informaiton from each potential song is cached in-memory so that I can quickly return the URL of the optimal permutation/playlist without hitting the API again.

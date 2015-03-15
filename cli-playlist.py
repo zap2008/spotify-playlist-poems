@@ -186,7 +186,7 @@ class ApiQueryPipeline(object):
     """
     Class for handling API queries and filtering for relevant information
     """
-    def __init__(self, target_poem, client_id, client_secret):
+    def __init__(self, target_poem, client_id=None, client_secret=None):
         self.target_poem = target_poem
         self.client_id = client_id
         self.client_secret = client_secret
@@ -353,11 +353,13 @@ def main(argv):
             q = input.read()
             q = q.replace('\n', ' ').rstrip()
 
-    client_id = raw_input("""Please enter Client ID for API access:
-        """)
-    client_secret = raw_input("""Please enter Client Secret for API access:
-        """)
-    apiQuery = ApiQueryPipeline(q, client_id, client_secret)
+    # client_id = raw_input("""Please enter Client ID for API access:
+    #     """)
+    # client_secret = raw_input("""Please enter Client Secret for API access:
+    #     """)
+    # apiQuery = ApiQueryPipeline(q, client_id, client_secret)
+
+    apiQuery = ApiQueryPipeline(q)
     apiQuery.run()
     
     perm, links, final_levenshtein = songPermutationSearch(
