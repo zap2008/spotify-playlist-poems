@@ -23,7 +23,7 @@ At a high level, my program works as follows:
 
 ## Notes on Implementation:
 * Due to the time constraint, my optimization efforts were focused mainly on the piece of the program that searches the space of song permutations (step 5 above).  I parallelized this process and added functionality to let the process time out after 2 minutes and return the 'best effort' result.  Given more time, I would work to optimize/parallelize the API queries as well. I chose to spend time optimizing the song permutation search for the following reason:
-  * for any input poem, there are 1/2 * _x_ (_x_ + 1) possible n-grams, where _x_ is the number of words in the poem.
+  * For any input poem, there are 1/2 * _x_ (_x_ + 1) possible n-grams, where _x_ is the number of words in the poem.
   * However, there are _y_! possible song permuations, where _y_ is the number of candidate songs for the playlist.
   * [As can be seen here](http://www.wolframalpha.com/input/?i=x%21+and+x*%28x%2B1%29%2F2), the number of possible song permutations will almost always be greater than the number of possible n-gram API queries for input poems with more than two words (two words allows for three n-grams and therefore up to three songs).
 * Due to the fact that a string distance metric was used, the resulting playlist will occasionally return songs that have words that were not in the input poem (e.g. "live" instead of "love").  My distance function has an option that allows you to find word-distances instead of just string-distances, however the string distances seemed to return better results overall so I decided not to use this option.  This does mean that the program effectively matches colloquial language to the input (e.g. "running" can match with "runnin").
